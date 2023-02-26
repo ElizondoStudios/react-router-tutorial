@@ -1,8 +1,12 @@
-import { Routes, Route, Link, useRoutes } from "react-router-dom"
+import { Routes, Route, Link, useRoutes, NavLink, Navigate, useLocation } from "react-router-dom"
 import Home from "./pages/Home"
 import BookRoutes from "./pages/BookRoutes"
+import NotFound from "./pages/NotFound"
 
 function App() {
+
+  const location= useLocation()
+  console.log(location)
 
   const element= useRoutes([
     {
@@ -20,18 +24,24 @@ function App() {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink
+             style={({isActive}) => isActive? {color: "red"}: {}}
+             to="/"
+             state="hi"
+            >
+              Home
+            </NavLink>
           </li>
           <li>
-            <Link to="/books">Books</Link>
+            <NavLink to="/books" end>Books</NavLink>
           </li>
         </ul>
       </nav>
-
+      {location.state}
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/books/*" element={<BookRoutes/>}/>
-        <Route path="*" element={<h1>404 Page not found</h1>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
 
     </div>
